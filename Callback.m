@@ -109,7 +109,9 @@
             if (self.errorBlock) {
                 self.errorBlock();
             }
-            assert(self.errorBlockWithError == nil);
+            if (self.errorBlockWithError) {
+                self.errorBlockWithError(nil);
+            }
             [self targetPerformSimpleSelector:self.errorMethod];
         }
         if (self.finalizationBlock) {
