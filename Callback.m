@@ -198,7 +198,7 @@
 
 - (void)addNextObject:(Callback *)object
 {
-    if (self.next) {
+    if (self.next && ![self.next isEqual:self]) {
         [self.next addNextObject:object];
     } else {
         self.next = object;
