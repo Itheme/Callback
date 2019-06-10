@@ -15,12 +15,14 @@ typedef enum : NSUInteger {
     CachabilitySmart = 2,
 } Cachability;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface Callback <__covariant ObjectType> : NSObject
 
 @property (nonatomic, copy) void(^successBlock)(void);
-@property (nonatomic, copy) void(^successBlockWithParam)(ObjectType result);
+@property (nonatomic, copy) void(^successBlockWithParam)(ObjectType __nullable result);
 @property (nonatomic, copy) void(^errorBlock)(void);
-@property (nonatomic, copy) void(^errorBlockWithError)(ObjectType error);
+@property (nonatomic, copy) void(^errorBlockWithError)(ObjectType __nullable error);
 @property (nonatomic, copy) void(^finalizationBlock)(void);
 @property (nonatomic, weak) id target;
 @property (nonatomic, assign) SEL successMethod;
@@ -35,16 +37,16 @@ typedef enum : NSUInteger {
 - (BOOL)isSequenceValid;
 
 - (id)initWithSuccess:(void(^)(void)) successBlock error:(void(^)(void)) errorBlock finalization:(void(^)(void)) finalizationBlock;
-- (id)initWithSuccessWithParam:(void(^)(ObjectType result)) successBlockWithParam
-                errorWithParam:(void(^)(ObjectType error)) errorBlockWithParam
+- (id)initWithSuccessWithParam:(void(^)(ObjectType __nullable result)) successBlockWithParam
+                errorWithParam:(void(^)(ObjectType __nullable error)) errorBlockWithParam
                   finalization:(void(^)(void)) finalizationBlock;
 - (id)initWithTarget:(id)target success:(SEL)success error:(SEL) error finalization:(SEL) finalization;
 - (void)invalidate;
 - (void)run:(BOOL)success;
 - (void)runWithResult:(ObjectType)result success:(BOOL)success;
-- (void)runWithResult:(ObjectType)result error:(ObjectType)error success:(BOOL)success;
+- (void)runWithResult:(ObjectType __nullable)result error:(ObjectType)error success:(BOOL)success;
 - (void)runWithError:(ObjectType)error;
-- (void)addNextObject:(Callback *)object;
+- (NSInteger)addNextObject:(Callback *)object; // add consequential callback which will be called with same result/error after this one. Returns number at which callback was added, ie 1 if it's just a single added callback, 2 if it's second one
 
 @end
 
@@ -70,3 +72,5 @@ typedef enum : NSUInteger {
 - (void)cancel;
 
 @end
+
+NS_ASSUME_NONNULL_END

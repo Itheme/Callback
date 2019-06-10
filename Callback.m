@@ -103,7 +103,9 @@
             if (self.successBlock) {
                 self.successBlock();
             }
-            assert(self.successBlockWithParam == nil);
+            if (self.successBlockWithParam) {
+                self.successBlockWithParam(nil);
+            }
             [self targetPerformSimpleSelector:self.successMethod];
         } else {
             if (self.errorBlock) {
@@ -198,14 +200,14 @@
     [self runWithResult:nil error:error success:NO];
 }
 
-- (void)addNextObject:(Callback *)object
+- (NSInteger)addNextObject:(Callback *)object
 {
-    if ([self.next isEqual:self]) return;
+    if ([self.next isEqual:self]) return 0;
     if (self.next) {
-        [self.next addNextObject:object];
-    } else {
-        self.next = object;
+        return [self.next addNextObject:object] + 1;
     }
+    self.next = object;
+    return 1;
 }
 
 @end
