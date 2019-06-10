@@ -65,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSArray <NSString *> *userInfoObjectNames;
 @property (nonatomic, strong) NSString *failureObjectName;
 @property (nonatomic, weak) id<CallbackDelegate> delegate;
-@property (nonatomic, strong) UIViewController *viewControllerForAlerts;
+@property (nonatomic, strong) UIViewController * __nullable viewControllerForAlerts;
 @property (nonatomic, assign) BOOL showErrorAlert;
 @property (nonatomic, assign) Cachability cachable;
 
